@@ -5,19 +5,19 @@
 
 
 makeCacheMatrix <- function(x = matrix()) {
- #set
- m<-NULL # initalizing variable m waith NULL 
- #here the function recieves matrix y as an arguement then assigns to m
-        set<-function(y){
-         x<<-y#asigning seted  matrix to x
-        m<<- NULL; # still m is NULL
-                
- }
-        # the function below returns the matrix when called
-        get<-function() x  
-  
- 
- 
+ m <- NULL #asigning NULL to m
+ #set function        
+ set <- function(y) { #recieves y as anrgument
+                x <<- y #assigns y to x
+                m <<- NULL #assigns null to m
+        }
+ #get function
+        get <- function() x #returns x
+        set_inverse_matrix <- function(solve) m <<- solve #sets the inverse matrix
+        get_inverse_matrix <- function() m #returns the inverse matrix
+        list(set = set, get = get,
+             set_inverse_matrix = set_inverse_matrix,
+             get_inverse_matrix = get_inverse_matrix)
  
 }
 
@@ -25,9 +25,14 @@ makeCacheMatrix <- function(x = matrix()) {
 ## this function accepts argumet x which is a matrix then returns it's inverse
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
-     m<-x$get()
- # solve function is used to compute the inverse
-  solve(m)
+   m <- x$get_inverse_matrix()
+        if(!is.null(m)) {
+                message("getting cached data")
+                return(m)
+        }
+        data <- x$get()
+        m <- solve(data, ...)
+        x$set_inverse_matrix(m)
+        m
       
 }
