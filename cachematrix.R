@@ -23,13 +23,16 @@ makeCacheMatrix <- function(x = matrix()) {
 
 
 ## this function accepts argumet x which is a matrix then returns it's inverse
-
+# the second arguement ... is tels that the entry is not limeted
 cacheSolve <- function(x, ...) {
-   m <- x$get_inverse_matrix()
-        if(!is.null(m)) {
+ #here we are calling get matrix function 
+ m <- x$get_inverse_matrix() # the '$' sign indicates the function is belongs to x
+    # if the inverse is not null it will be returned    
+    if(!is.null(m)) {
                 message("getting cached data")
                 return(m)
         }
+ #assigning the input matrix to variable data
         data <- x$get()
         m <- solve(data, ...)
         x$set_inverse_matrix(m)
